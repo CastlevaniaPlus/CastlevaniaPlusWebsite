@@ -3,29 +3,31 @@ const mysql = require('mysql2');
 
 const app = express();
 
-app.get("/src/index.html", function(req, res){
-    res.sendFile(__dirname + "/src/index.html")
-})
+app.use(express.static('src'))
 
-app.get("/src/read-more.html", function(req, res){
-    res.sendFile(__dirname + "/src/read-more.html")
-})
+// app.get("/src/index.html", function(req, res){
+//     res.sendFile(__dirname + "/src/index.html")
+// })
 
-app.get("/src/characters.html", function(req, res){
-    res.sendFile(__dirname + "/src/characters.html")
-})
+// app.get("/src/read-more.html", function(req, res){
+//     res.sendFile(__dirname + "/src/read-more.html")
+// })
 
-app.get("/src/game.html", function(req, res){
-    res.sendFile(__dirname + "/src/game.html")
-})
+// app.get("/src/characters.html", function(req, res){
+//     res.sendFile(__dirname + "/src/characters.html")
+// })
 
-app.get("/src/login.html", function(req, res){
-    res.sendFile(__dirname + "/src/login.html")
-})
+// app.get("/src/game.html", function(req, res){
+//     res.sendFile(__dirname + "/src/game.html")
+// })
 
-app.get("/src/register.html", function(req, res){
-    res.sendFile(__dirname + "/src/register.html")
-})
+// app.get("/src/login.html", function(req, res){
+//     res.sendFile(__dirname + "/src/login.html")
+// })
+
+// app.get("/src/register.html", function(req, res){
+//     res.sendFile(__dirname + "/src/register.html")
+// })
 
 var con = mysql.createConnection({
   host: "localhost",
