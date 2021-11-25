@@ -1,9 +1,16 @@
 const express = require('express');
-const mysql = require('mysql2');
+const parser = require('body-parser')
+const routers = require('./js/Database')
 
 const app = express();
 
 app.use(express.static('src'))
+
+app.use(parser.urlencoded({ extended: true }))
+
+app.use(express.json())
+
+app.use(routers)
 
 // app.get("/src/index.html", function(req, res){
 //     res.sendFile(__dirname + "/src/index.html")
@@ -28,16 +35,5 @@ app.use(express.static('src'))
 // app.get("/src/register.html", function(req, res){
 //     res.sendFile(__dirname + "/src/register.html")
 // })
-
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "Rafael",
-  password: "senhaMuitoForte16287"
-});
-
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
 
 app.listen(8080)
