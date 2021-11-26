@@ -18,34 +18,82 @@ con.connect(function(err) {
 router.post("/register", (req, res) => {
     const username = req.body.username
     const email = req.body.email
+    const confirmEmail = req.body.confirmEmail
     const password = req.body.password
+    const confirmPassword = req.body.confirmPassword
 
-    var sql = "INSERT INTO usuario (username, email, senha) VALUES ('"+ username +"', '" + email +"', '" + password + "')";
-    con.query(sql, function (err, result) {
-      if (err) throw err;
-      console.log("Added " + username + " to database");
-    });
+    if (validateCredentials(username, email, confirmEmail, password, confirmPassword)) {
 
-    res.redirect("/login.html")
+        var sql = "INSERT INTO usuario (username, email, senha) VALUES ('"+ username +"', '" + email +"', '" + password + "')";
+        con.query(sql, function (err, result) {
+        if (err) throw err;
+            console.log("Added " + username + " to database");
+        });
+
+        console.log("Register Successfull!")
+        res.redirect("/login.html")
+
+    } else {
+        res.redirect("/register.html");
+    }
 })
 
 router.post("/login", (req, res) => {
     const email = req.body.email
     const password = req.body.password
 
-    var sql = "SELECT email, senha FROM usuario WHERE email='"+ email +"' AND senha='" + password + "'";
-    con.query(sql, function (err, result) {
-      if (err) throw err;
+    if (validateCredentials(email, password)) {
+        var sql = "SELECT email, senha FROM usuario WHERE email='"+ email +"' AND senha='" + password + "'";
+        con.query(sql, function (err, result) {
+        if (err) throw err;
 
-      if (result.length != 0) {
+        if (result.length != 0) {
             console.log("Login success!")
-      } else {
-          console.log("Login failed!")
-      }
-    });
+            res.redirect("/index.html");
+        } else {
+            console.log("Login failed!")
+            res.redirect("/login.html");
+        }
+        });
 
-    res.redirect("/index.html");
-
+    } else {
+        console.log("Login failed!")
+        res.redirect("/login.html");
+    }
 })
 
 module.exports = router
+
+function validateCredentials(username, email, confirmEmail, password, confirmPassword) {
+
+    if (username == "") {
+        console.log('Name cannot be empty')
+    } else if (email == "") {
+        console.log('Email cannot be empty')
+    } else if (password == "") {
+        console.log('Password cannot be empty')
+    } else if (confirmPassword == "") {
+        console.log('Password cannot be empty')
+    } else if (confirmEmail == "") {
+        console.log('Re-enter password cannot be empty')
+    } else {
+        return true
+    }
+
+    return false; 
+
+}
+
+function validateCredentials(email, password) {
+
+    if (email == "") {
+        console.log('Email cannot be empty')
+    } else if (password == "") {
+        console.log('Password cannot be empty')
+    } else {
+        return true
+    }
+
+    return false; 
+
+}
